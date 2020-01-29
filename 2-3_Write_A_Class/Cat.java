@@ -1,8 +1,14 @@
 
 public class Cat extends Pet {
-	
-	public void catSpaceNbr() {
-		// whatever this method does
+	private int catSpaceNbr;
+
+
+	public void setCatSpaceNbr(int spaceNbr) {
+		catSpaceNbr = spaceNbr;
+	}
+
+	public int getCatSpaceNbr() {
+		return catSpaceNbr;
 	}
 	
 }
