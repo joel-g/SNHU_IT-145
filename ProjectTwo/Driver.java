@@ -8,18 +8,6 @@ public class Driver {
     // Instance variables
     static ArrayList<RescueAnimal> rescueAnimals = new ArrayList<RescueAnimal>();
 
-    
-    // Method to process request for a rescue animal
-
-
-    // Method(s) to update information on existing animals
-
-
-
-    // Method to display matrix of aninmals based on location and status/training phase
-
-
-
     // Method to add animals
     public static void addAnimal() {
         char animalType = '0';
@@ -168,7 +156,6 @@ public class Driver {
         ivan.setGender("M");
         ivan.setInServiceCity("Tacoma");
         rescueAnimals.add(ivan);
-
 
         // Add an animal - this will call other functions to gather all the info about a new animal 
         addAnimal();

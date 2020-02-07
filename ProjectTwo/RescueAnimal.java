@@ -31,7 +31,6 @@ public class RescueAnimal {
     }
 
     // Accessors and mutators
-    
 	public String getName() {
 		return this.name;
 	}
