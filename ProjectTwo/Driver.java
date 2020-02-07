@@ -37,12 +37,12 @@ public class Driver {
         newAnimal = getCommonInfo(newAnimal);
         
         System.out.println("Thank you. The new animal, "+newAnimal.getName()+ ", was added to the system.");
+        scnr.close();
         return;
     }
 
     // this method is only called by addAnimal()
     private static Dog getDogInfo() {
-        
         HashMap<Integer, String> breeds = new HashMap<>();
         breeds.put(0,"American pit bull terrier");
         breeds.put(1, "Beagle");
@@ -58,7 +58,7 @@ public class Driver {
         breeds.put(11, "Nova Scotia duck tolling retriever");
         breeds.put(12, "Rough collie");
         breeds.put(13, "Smooth collie");
-
+    
         String breedListString = "";
         // crafts long string of choices from breeds HashMap
         for (HashMap.Entry<Integer, String> entry : breeds.entrySet()) {
@@ -79,7 +79,46 @@ public class Driver {
 
     // this method is only called by addAnimal()
     private static Monkey getMonkeyInfo(RescueAnimal animal) {
-        Monkey monkey = (Monkey)animal;
+        HashMap<Integer, String> species = new HashMap<>();
+        species.put(0,"Capuchin");
+        species.put(1, "Guenon");
+        species.put(2, "Squirrel monkey");
+        species.put(3, "Tamarin");
+        species.put(4, "Macaque");
+        species.put(5, "Marmoset");
+
+        String speciesListString = "";
+        // crafts long string of choices from species HashMap
+        for (HashMap.Entry<Integer, String> entry : species.entrySet()) {
+		    speciesListString += "(" + entry.getKey() + ") " + entry.getValue()+ "\n";
+        }
+        // while loop keeps asking for species until valid selection is made
+        int speciesSelection = -1;
+        Scanner scnr = new Scanner(System.in);
+        while (speciesSelection < 0 || speciesSelection > 5) {
+            System.out.println("Select a monkey species\n"+ speciesListString);
+            speciesSelection = scnr.nextInt();
+        }
+        Monkey monkey = new Monkey(species.get(speciesSelection)); // HashMap guarantees only a valid breed is set
+
+        System.out.println("Enter tail length in CM:");
+        monkey.setTailLengthCM(scnr.nextFloat());
+        
+        System.out.println("Enter height in CM");
+        monkey.setHeightCM(scnr.nextFloat());
+        
+        System.out.println("Enter body length in CM");
+        monkey.setBodyLengthCM(scnr.nextFloat());
+
+        System.out.println("Enter torso length in CM");
+        monkey.setTorsoCM(scnr.nextFloat());
+
+        System.out.println("Enter skull circumfrence in CM");
+        monkey.setSkullCM(scnr.nextFloat());
+
+        System.out.println("Enter neck circumfrence in CM");
+        monkey.setHeightCM(scnr.nextFloat());
+
         return monkey;
     }
 
