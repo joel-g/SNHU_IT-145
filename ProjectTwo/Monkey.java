@@ -1,3 +1,4 @@
+import java.util.Arrays;
 
 public class Monkey extends RescueAnimal {
 
@@ -11,6 +12,9 @@ public class Monkey extends RescueAnimal {
     private float skullCM;
     private float neckCM;
 
+
+    // Accessors and mutators
+    
 	public String getSpecies() {
 		return this.species;
 	}
@@ -68,11 +72,23 @@ public class Monkey extends RescueAnimal {
 	}
 
 
-
     // Constructor
-    public Monkey() {
+    public Monkey(String species) {
+		this.species = species;
     }
 
-    
+	// used to check is species is eligible for the rescue program
+    public boolean isEligibleSpecies(String species) {
+        final String[] validSpecies = {
+			"Capuchin",
+			"Guenon",
+			"Macaque",
+			"Marmoset",
+			"Squirrel monkey",
+			"Tamarin"
+		};
+        
+        return Arrays.asList(validSpecies).contains(species);
+    }
 
 }
