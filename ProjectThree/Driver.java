@@ -39,6 +39,8 @@ public class Driver {
     public static void initializeCruiseList() {
         Cruise newCruise = new Cruise("Southern Swirl", "Candy Cane", "Miami", "Cuba", "Miami");
         cruiseList.add(newCruise);
+        Cruise anotherNewCruise = new Cruise("Marilee's View", "Sweet Angel", "Seattle", "San Francisco", "Seattle");
+        cruiseList.add(anotherNewCruise);
     }
 
     // hardcoded cruise data for testing
