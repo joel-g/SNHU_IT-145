@@ -82,10 +82,18 @@ public class Ship {
         for (int i = 1; i <= spaceCount; i++) {
             spaces = spaces + " ";
         }
+        // I changed this to not use TABS. Tabs are not a reliable delimeter because users can configure different tab widths in their console. Now it dynamically generates spaces based on the number of digits in the previous value.
 
-        System.out.println(shipName + spaces + roomBalcony + "\t" +
-                roomOceanView + "\t" + roomSuite + "\t" +
-                roomInterior + "\t\t" + inService);
+        System.out.println(shipName + spaces + roomBalcony + makeSpace(roomBalcony) +
+                roomOceanView + makeSpace(roomOceanView) + roomSuite + makeSpace(roomSuite) +
+                roomInterior + makeSpace(roomInterior) + "    " + inService);
+    }
+    private String makeSpace(int value) {
+        if (value > 9) {
+            return "  ";
+        } else {
+            return "   ";
+        }
     }
 
     // method added to print ship's name vice memory address

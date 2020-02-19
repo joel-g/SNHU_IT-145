@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import static java.lang.Integer.parseInt;
@@ -18,6 +19,8 @@ public class Driver {
         initializePassengerList();  // initial passengers
         printCruiseList("details");
         printShipList("full");
+        printShipList("active");
+        addShip();
         // add loop and code here that accepts and validates user input
         // and takes the appropriate action. include appropriate
         // user feedback and redisplay the menu as needed
@@ -82,11 +85,13 @@ public class Driver {
                 System.out.println(shipList.get(i));
             }
         } else if (listType == "active") {
+            // prints out the active ships
             System.out.println("\n\nSHIP LIST - Active");
-
-            // complete this code block
-
-
+            for (int i = 0; i < shipList.size(); i++) {
+                if (shipList.get(i).getInService()) {
+                    System.out.println(shipList.get(i));
+                }
+            }
         } else if (listType == "full") {
             System.out.println("\n\nSHIP LIST - Full");
             System.out.println("-----------------------------------------------");
@@ -154,8 +159,66 @@ public class Driver {
     // Add a New Ship
     public static void addShip() {
 
-        // complete this method
+        Scanner newShipInput = new Scanner(System.in);
+        System.out.println("Enter the new ships's name: ");
+        String newShipName = newShipInput.nextLine();
 
+        // ensure new ship name does not already exist
+        for (Ship eachShip: shipList) {
+            if (eachShip.getShipName().equalsIgnoreCase(newShipName)) {
+                System.out.println("That ship is already in the system. Exiting to menu...");
+                return; // quits addShip() method processing
+            }
+        }
+
+        // get numbers of each type of rooms
+        int numOfBalcony = askNumberOfRooms("balcony",newShipInput);
+        int numOfOceanView = askNumberOfRooms("ocean view", newShipInput);
+        int numOfSuite = askNumberOfRooms("suite", newShipInput);
+        int numOfInterior = askNumberOfRooms("interior", newShipInput);
+
+        // ask if the ship is in service and validate input
+        char inServiceChar = ' ';
+        boolean isInService = false;
+        do {
+            System.out.println("Is the ship in service? ('y' or 'n'): ");
+            inServiceChar = newShipInput.next().charAt(0);
+            if (inServiceChar == 'y' || inServiceChar == 'Y') {
+                isInService = true;
+                break;
+            } else if (inServiceChar == 'n' || inServiceChar == 'N') {
+                break;
+            } else {
+                System.out.println("Please only enter 'y' or 'n'.");
+            }
+        } while (inServiceChar != 'y' && inServiceChar != 'n' && inServiceChar != 'Y' && inServiceChar != 'N');
+        
+        // creates the new ship and adds it to the list
+        Ship newShip = new Ship(newShipName, numOfBalcony, numOfOceanView, numOfSuite, numOfInterior, isInService);
+        shipList.add(newShip);
+        newShipInput.close();
+        return;
+    }
+
+    public static int askNumberOfRooms(String roomType, Scanner scnr) {
+        // get numbers of rooms name for ship
+        // this method is called by addShip() only
+        int numOfRooms = -1;
+        do {
+            try {
+                System.out.println("Enter number of " + roomType + " rooms: ");
+                numOfRooms = scnr.nextInt();
+                if (numOfRooms < 0) {
+                    throw new Throwable();
+                }
+            } catch(InputMismatchException e) {
+                scnr.next(); // clear the bad value from the scanner
+                System.out.println("Please enter a valid number input. No alphabet characters.");
+            } catch(Throwable t) {
+                System.out.println("Please enter a positive number or 0.");
+            }
+        } while (numOfRooms < 0);
+        return numOfRooms;
     }
 
     // Edit an existing ship
@@ -179,7 +242,7 @@ public class Driver {
 
         // This method does not need to be completed
         System.out.println("The \"Edit Cruise\" feature is not yet implemented.");
-
+       
     }
 
     // Add a New Passenger
