@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import static java.lang.Integer.parseInt;
@@ -17,13 +18,48 @@ public class Driver {
         initializeShipList();       // initial ships
         initializeCruiseList();     // initial cruises
         initializePassengerList();  // initial passengers
-        printCruiseList("details");
-        printShipList("full");
-        printShipList("active");
-        addShip();
+  
         // add loop and code here that accepts and validates user input
         // and takes the appropriate action. include appropriate
         // user feedback and redisplay the menu as needed
+        
+        Scanner menuInput = new Scanner(System.in);
+        char nextAction = ' ';
+        do {
+            displayMenu();
+            nextAction = Character.toUpperCase(menuInput.next().charAt(0));
+            switch (nextAction) {
+                case '1': 
+                    addShip();
+                    break;
+                case '2': editShip();
+                    break;
+                case '3': addCruise();
+                    break;
+                case '4': editCruise();
+                    break;
+                case '5': addPassenger();
+                    break;
+                case '6': editPassenger();
+                    break;
+                case 'A': printShipList("name");
+                    break;
+                case 'B': printShipList("active");
+                    break;
+                case 'C': printShipList("full");
+                    break;
+                case 'D': printCruiseList("list");;
+                    break;
+                case 'E': printShipList("details");
+                    break;
+                case 'F': printPassengerList();
+                    break;
+                case 'X': System.out.println("Happy cruising!");
+                    return;
+                default: System.out.println("Invalid input. Try again.");
+            }
+            nextAction = ' ';
+        } while (true);
 
 
     }
@@ -196,7 +232,6 @@ public class Driver {
         // creates the new ship and adds it to the list
         Ship newShip = new Ship(newShipName, numOfBalcony, numOfOceanView, numOfSuite, numOfInterior, isInService);
         shipList.add(newShip);
-        newShipInput.close();
         return;
     }
 
@@ -232,9 +267,59 @@ public class Driver {
     // Add a New Cruise
     public static void addCruise() {
 
-        // complete this method
+        Scanner newCruiseInput = new Scanner(System.in);
+        System.out.println("Enter the new cruise's name: ");
+        String newCruiseName = newCruiseInput.nextLine();
 
+        // ensure new cruise name does not already exist
+        for (Cruise eachCruise: cruiseList) {
+            if (eachCruise.getCruiseName().equalsIgnoreCase(newCruiseName)) {
+                System.out.println("That cruise is already in the system. Exiting to menu...");
+                return; // quits addCruise() method processing
+            }
+        }
+
+        System.out.println("Enter the name of this cruise's ship: ");
+        String newCruiseShipName = newCruiseInput.nextLine();
+
+         // ensure the ship exists and is in service
+         boolean shipFound = false;
+         for (Ship eachShip: shipList) {
+            if (eachShip.getShipName().equalsIgnoreCase(newCruiseShipName)) {
+                shipFound = true;
+                if (!eachShip.getInService()) {
+                    System.out.println("That ship is not in service. Exiting to menu...");
+                    return; // quits addCruise() method processing
+                }
+            }
+        }
+
+        if (!shipFound) {
+            System.out.println("That ship does not exist. Exiting to menu...");
+            return; // quits addCruise() method processing
+        }
+
+        // ensure is not assigned to another cruise 
+        for (Cruise eachCruise: cruiseList) {
+            if (eachCruise.getCruiseShipName().equalsIgnoreCase(newCruiseShipName)) {
+                System.out.println("That ship is already assigned to another cruise. Exiting to menu...");
+                return; // quits addCruise() method processing
+            }
+        }
+
+        // gathers port, dest, return info
+        System.out.println("Enter the cruises's departure port: ");
+        String newCruiseDepart = newCruiseInput.nextLine();
+        System.out.println("Enter the cruises's destination: ");
+        String newCruiseDestination = newCruiseInput.nextLine();
+        System.out.println("Enter the cruises's return port: ");
+        String newCruiseReturn = newCruiseInput.nextLine();
         
+        // create the cruise and add to the list
+        Cruise newCruise = new Cruise(newCruiseName, newCruiseShipName, newCruiseDepart, newCruiseDestination, newCruiseReturn);
+        cruiseList.add(newCruise);
+        
+        return;
     }
 
     // Edit an existing cruise
